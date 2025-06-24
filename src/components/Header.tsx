@@ -51,11 +51,14 @@ const FormHeader = ({ isOnline }: Props) => {
   // Check ICD-API status
   const checkIcdApiStatus = async () => {
     try {
+      console.log('Checking ICD-API at:', config.icdApiUrl);
       const response = await fetch(config.icdApiUrl);
       if (response.ok || response.status === 200) {
         setIcdApiStatus('Running');
+        console.log('ICD-API is running');
       } else {
         setIcdApiStatus('Stopped');
+        console.log('ICD-API stopped - status:', response.status);
       }
     } catch (error) {
       setIcdApiStatus('Stopped');
@@ -67,19 +70,32 @@ const FormHeader = ({ isOnline }: Props) => {
   const checkProxyStatus = async () => {
     console.log('Checking proxy status at:', config.proxyApiUrl);
     try {
-      const response = await fetch(config.proxyApiUrl);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      
+      const response = await fetch(config.proxyApiUrl, {
+        method: 'GET',
+        signal: controller.signal,
+      });
+      
+      clearTimeout(timeoutId);
       console.log('Proxy response status:', response.status, response.ok);
       if (response.ok || response.status === 200) {
         setProxyStatus('Running');
         console.log('Proxy service is running');
       } else {
-        setProxyStatus('Stopped');
-        console.log('Proxy service stopped - status:', response.status);
+        setProxyStatus('Network Only');
+        console.log('Proxy service not accessible from network - localhost only');
       }
-    } catch (error) {
-      setProxyStatus('Stopped');
-      console.error('Proxy service check failed:', error);
-    }
+          } catch (error) {
+        if (error instanceof Error && error.name === 'AbortError') {
+          setProxyStatus('Timeout');
+          console.log('Proxy service check timed out');
+        } else {
+          setProxyStatus('Stopped');
+          console.log('Proxy service check failed:', error);
+        }
+      }
   };
 
   // Check services periodically
@@ -131,11 +147,17 @@ const FormHeader = ({ isOnline }: Props) => {
             🔐 DHIS2 Settings
           </button>
         )}
-        <span className="internetStatus">ICD-API: {icdApiStatus}</span>
-        <span className="internetStatus">Proxy service: {proxyStatus}</span>
-        <span className="internetStatus">Device: {deviceInfo.deviceType}</span>
+        <span className={`internetStatus ${icdApiStatus === 'Running' ? 'service-running' : 'service-stopped'}`}>
+          ICD-11: {icdApiStatus}
+        </span>
+        <span className={`internetStatus ${proxyStatus === 'Running' ? 'service-running' : 'service-stopped'}`}>
+          Proxy: {proxyStatus}
+        </span>
+        {(deviceInfo.deviceType === 'tablet' || deviceInfo.deviceType === 'mobile') && (
+          <span className="internetStatus">📱 {deviceInfo.deviceType}</span>
+        )}
         {config.isTabletMode && (
-          <span className="internetStatus">Server: {config.serverIp}</span>
+          <span className="internetStatus">🌐 {config.serverIp}</span>
         )}
         <span className="internetStatus">
           <span className={`circle ${isOnline ? 'online' : 'offline'}`}></span>

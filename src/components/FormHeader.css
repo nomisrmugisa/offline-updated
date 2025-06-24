@@ -1,50 +1,72 @@
 .header {
   position: fixed;
   top: 0;
-  padding: 0 50px;
+  padding: 0 20px;
   width: 100%;
-  min-width: 1400px; /* Ensures minimum width */
   background-color: rgb(31, 107, 219);
   height: 50px;
   display: flex;
   align-items: center;
   z-index: 1000;
   color: white;
-  gap: 97px;
+  gap: 20px;
   box-sizing: border-box;
+  overflow-x: auto; /* Allow horizontal scrolling if needed */
+}
+
+.headng {
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .rightEnd {
-  margin-right: 300px;
   display: flex;
-  align-items: center; /* Changed from right to center for better alignment */
-  gap: 10px;
-  margin-left: auto; /* Pushes the right content to the right edge */
-  white-space: nowrap; /* Prevents content from wrapping */
-  flex-shrink: 0; /* Prevents shrinking */
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .dashboardBtn {
   border: 1px solid white;
   background-color: transparent;
   color: white;
-  padding: 1px;
+  padding: 4px 8px;
   border-radius: 2px;
-  white-space: nowrap; /* Prevents text from wrapping */
-  min-width: fit-content; /* Ensures button doesn't shrink below its content size */
+  white-space: nowrap;
+  min-width: fit-content;
+  font-size: 12px;
+  cursor: pointer;
 }
 
 .internetStatus {
   border: 1px solid white;
   background-color: transparent;
   color: white;
-  padding: 3px;
+  padding: 4px 6px;
   border-radius: 2px;
   display: flex;
   align-items: center;
   gap: 3px;
-  white-space: nowrap; /* Prevents text from wrapping */
-  min-width: fit-content; /* Ensures element doesn't shrink below its content size */
+  white-space: nowrap;
+  min-width: fit-content;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.internetStatus.service-running {
+  background-color: rgba(0, 180, 0, 0.2);
+  border-color: rgb(0, 180, 0);
+  color: rgb(200, 255, 200);
+}
+
+.internetStatus.service-stopped {
+  background-color: rgba(226, 3, 3, 0.2);
+  border-color: rgb(226, 3, 3);
+  color: rgb(255, 200, 200);
 }
 
 .circle {
@@ -52,7 +74,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  flex-shrink: 0; /* Prevents the circle from shrinking */
+  flex-shrink: 0;
 }
 
 .circle.online {
@@ -63,40 +85,63 @@
   background-color: rgb(226, 3, 3);
 }
 
-/* Media query to handle smaller screens */
-@media screen and (max-width: 1399px) {
+/* Tablet-specific styles */
+@media screen and (max-width: 1024px) {
   .header {
-    overflow-x: visible;
+    padding: 0 10px;
+    gap: 8px;
+    height: 60px; /* Slightly taller for better touch targets */
+    flex-wrap: wrap; /* Allow wrapping if absolutely necessary */
+  }
+  
+  .headng {
+    font-size: 12px;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .rightEnd {
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  
+  .dashboardBtn {
+    font-size: 10px;
+    padding: 2px 4px;
+  }
+  
+  .internetStatus {
+    font-size: 10px;
+    padding: 2px 4px;
+    border-width: 1px;
+  }
+  
+  /* Hide download buttons on tablet to save space for status indicators */
+  .dashboardBtn:nth-child(1),
+  .dashboardBtn:nth-child(2) {
+    display: none;
+  }
+}
+
+/* Mobile-specific styles */
+@media screen and (max-width: 768px) {
+  .header {
+    height: 70px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5px 10px;
+  }
+  
+  .rightEnd {
     width: 100%;
-    min-width: 1400px;
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
   
-  /* Ensure the header elements don't wrap or get hidden */
-  .header > * {
-    flex-shrink: 0;
-    white-space: nowrap;
-  }
-  
-  /* Adjust the gap for smaller screens if needed */
-  .header {
-    gap: 50px; /* Reduce gap on smaller screens */
-  }
-  
-  /* Make sure buttons remain visible */
-  .dashboardBtn, .internetStatus {
-    flex-shrink: 0;
+  .internetStatus {
+    font-size: 9px;
+    padding: 1px 3px;
   }
 }
 
-/* Additional utility class for main title/logo in header */
-.headerTitle {
-  flex-shrink: 0;
-  white-space: nowrap;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-/* Ensure any buttons or elements in header don't shrink */
-.header button, .header a, .header div {
-  flex-shrink: 0;
-}
