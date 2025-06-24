@@ -1,0 +1,102 @@
+.header {
+  position: fixed;
+  top: 0;
+  padding: 0 50px;
+  width: 100%;
+  min-width: 1400px; /* Ensures minimum width */
+  background-color: rgb(31, 107, 219);
+  height: 50px;
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+  color: white;
+  gap: 97px;
+  box-sizing: border-box;
+}
+
+.rightEnd {
+  margin-right: 300px;
+  display: flex;
+  align-items: center; /* Changed from right to center for better alignment */
+  gap: 10px;
+  margin-left: auto; /* Pushes the right content to the right edge */
+  white-space: nowrap; /* Prevents content from wrapping */
+  flex-shrink: 0; /* Prevents shrinking */
+}
+
+.dashboardBtn {
+  border: 1px solid white;
+  background-color: transparent;
+  color: white;
+  padding: 1px;
+  border-radius: 2px;
+  white-space: nowrap; /* Prevents text from wrapping */
+  min-width: fit-content; /* Ensures button doesn't shrink below its content size */
+}
+
+.internetStatus {
+  border: 1px solid white;
+  background-color: transparent;
+  color: white;
+  padding: 3px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  white-space: nowrap; /* Prevents text from wrapping */
+  min-width: fit-content; /* Ensures element doesn't shrink below its content size */
+}
+
+.circle {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0; /* Prevents the circle from shrinking */
+}
+
+.circle.online {
+  background-color: rgb(0, 180, 0);
+}
+
+.circle.offline {
+  background-color: rgb(226, 3, 3);
+}
+
+/* Media query to handle smaller screens */
+@media screen and (max-width: 1399px) {
+  .header {
+    overflow-x: visible;
+    width: 100%;
+    min-width: 1400px;
+  }
+  
+  /* Ensure the header elements don't wrap or get hidden */
+  .header > * {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  
+  /* Adjust the gap for smaller screens if needed */
+  .header {
+    gap: 50px; /* Reduce gap on smaller screens */
+  }
+  
+  /* Make sure buttons remain visible */
+  .dashboardBtn, .internetStatus {
+    flex-shrink: 0;
+  }
+}
+
+/* Additional utility class for main title/logo in header */
+.headerTitle {
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Ensure any buttons or elements in header don't shrink */
+.header button, .header a, .header div {
+  flex-shrink: 0;
+}

@@ -1,0 +1,263 @@
+.header1 {
+  background-color: rgb(212, 207, 207);
+  width: 100%;
+  margin-top: 50px;
+  height: 85px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 800px;
+  min-width: 1400px; /* Ensures minimum width is maintained */
+}
+
+.heading {
+  margin-left: 50px;
+}
+
+p.stat {
+  margin-left: 40px;
+}
+
+.topBtns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  white-space: nowrap; /* Prevents button text from wrapping */
+}
+
+.container {
+  padding-top: 20px;
+  height: 100%;
+  width: 95%; /* Reduced from 110% to prevent overflow */
+  position: relative;
+  margin-left: 50px;
+  min-width: 1400px; /* Ensures minimum width even on smaller screens */
+  overflow-x: visible; /* Changed from auto to visible */
+  box-sizing: border-box; /* Ensures padding is included in width calculation */
+}
+
+.summaryTabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  white-space: nowrap; /* Prevents tab text from wrapping */
+}
+
+span.tab {
+  background-color: transparent;
+  color: black;
+  padding: 2px;
+  border-radius: 3px;
+}
+
+.main {
+  width: 95%; /* Reduced from 110% to prevent overflow */
+  min-width: 1400px; /* Maintains minimum width */
+}
+
+.rowHeader {
+  background-color: rgb(243, 243, 243);
+  margin-top: 15px;
+}
+
+button.del {
+  padding: 5px;
+  border-radius: 3px;
+  border: .25px solid red;
+  color: red;
+  transition: all 0.3s ease; /* Smooth transition */
+  white-space: nowrap; /* Prevents button text from wrapping */
+}
+
+button.del:hover {
+  background-color: red;
+  color: white;
+  border-color: darkred;
+}
+
+button.edit {
+  padding: 5px;
+  border-radius: 3px;
+  border: .25px solid rgb(252,185,0);
+  color: #c08d02;
+  transition: all 0.3s ease; /* Smooth transition */
+  white-space: nowrap; /* Prevents button text from wrapping */
+}
+
+button.edit:hover {
+  background-color: rgb(252, 185, 0);
+  color: white;
+  border-color: orange;
+}
+
+.col {
+  border: 1px solid rgb(154, 201, 216);
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}
+
+.tables {
+  width: 95%; /* Ensure tables don't overflow */
+  min-width: 1400px;  /*Ensures form maintains width */
+}
+
+.tables tr, .tables th, .tables td {
+  border: 1px solid rgb(154, 201, 216);
+  padding: 5px;
+}
+
+.ctw-window {
+  width: 300%;
+  z-index: 1000;
+}
+
+/* sync btn */
+.sync-container {
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.refresh-sync-button {
+  min-width: 150px;
+  white-space: nowrap; /* Prevents button text from wrapping */
+}
+
+.refresh-progress {
+  margin-top: 5px;
+  padding: 5px;
+  font-size: 0.9rem;
+  color: #333;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  width: 100%;
+}
+
+/* sync progress */
+.sync-progress-container {
+  margin: 15px 0;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+.sync-progress-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.progress {
+  height: 20px;
+  background: #e9ecef;
+}
+
+/* Custom styling for date inputs */
+.date-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.date-input-container input[type="date"],
+.date-input-container input[type="datetime-local"] {
+  padding-right: 60px; /* Make room for the icon */
+  width: 100%;
+}
+
+.date-input-container::after {
+  content: "📅";
+  position: absolute;
+  right: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none; /* Makes sure clicks pass through to the input */
+}
+
+/* If you prefer a different approach with an actual icon element */
+.date-input-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #555;
+  cursor: pointer;
+}
+
+/* Wrapper to ensure content doesn't shrink below minimum width */
+body {
+  min-width: 1400px;
+  overflow-x: auto; /* Allows horizontal scrolling for screens smaller than min-width */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Add media query to handle smaller screens with horizontal scrolling */
+@media screen and (max-width: 1399px) {
+  html, body {
+    overflow-x: auto;
+  }
+  
+  /* Form container - ensure it doesn't shrink */
+  .container {
+    width: 95%; /* Ensure it's not too wide */
+    max-width: 1400px; /* Limit maximum width */
+    margin-left: 50px;
+    margin-right: 50px; /* Add right margin to prevent content from getting too close to edge */
+    box-sizing: border-box;
+  }
+  
+  /* Top header area */
+  .header1 {
+    width: 95%;
+    max-width: 1400px; /* Limit maximum width */
+  }
+  
+  /* Main content area */
+  .main {
+    width: 95%;
+    max-width: 1400px; /* Limit maximum width */
+  }
+  
+  /* All buttons should keep their size */
+  button {
+    white-space: nowrap;
+  }
+  
+  /* Make sure action buttons don't wrap or shrink */
+  .topBtns button {
+    flex-shrink: 0;
+  }
+}
+
+/* Additional styles to prevent form fields from shrinking */
+input, select, textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ensure form rows and fields maintain proper spacing and visibility */
+tr {
+  min-height: 40px;
+  width: 100%;
+  display: table-row;
+}
+
+td {
+  min-width: 150px; /* Prevent cells from getting too narrow */
+  max-width: 400px; /* Limit maximum width of cells */
+  overflow: visible;
+}
+
+/* Ensure form container properly contains all content */
+form {
+  width: 95%;
+  max-width: 1400px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}

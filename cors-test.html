@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CORS Test</title>
+</head>
+<body>
+    <h1>CORS Connection Test</h1>
+    
+    <div>
+        <label>Server IP:</label>
+        <input type="text" id="serverIp" value="192.168.1.155" />
+        <button onclick="testConnection()">Test Connection</button>
+    </div>
+    
+    <div id="results" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc;">
+        Results will appear here...
+    </div>
+
+    <script>
+        async function testConnection() {
+            const serverIp = document.getElementById('serverIp').value;
+            const resultsDiv = document.getElementById('results');
+            
+            resultsDiv.innerHTML = '<p>Testing connection...</p>';
+            
+            // Test 1: Basic connectivity
+            try {
+                const response = await fetch(`http://${serverIp}:5001/test`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    resultsDiv.innerHTML += `<p style="color: green;">✅ Basic GET request successful: ${JSON.stringify(data)}</p>`;
+                } else {
+                    resultsDiv.innerHTML += `<p style="color: red;">❌ GET request failed with status: ${response.status}</p>`;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML += `<p style="color: red;">❌ GET request error: ${error.message}</p>`;
+            }
+            
+            // Test 2: OPTIONS preflight
+            try {
+                const response = await fetch(`http://${serverIp}:5001/test`, {
+                    method: 'OPTIONS',
+                });
+                
+                if (response.ok) {
+                    resultsDiv.innerHTML += `<p style="color: green;">✅ OPTIONS request successful</p>`;
+                    resultsDiv.innerHTML += `<p>CORS Headers: ${JSON.stringify([...response.headers.entries()])}</p>`;
+                } else {
+                    resultsDiv.innerHTML += `<p style="color: red;">❌ OPTIONS request failed with status: ${response.status}</p>`;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML += `<p style="color: red;">❌ OPTIONS request error: ${error.message}</p>`;
+            }
+            
+            // Test 3: POST request (triggers preflight)
+            try {
+                const response = await fetch(`http://${serverIp}:5001/api/32/events`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({test: "data"}),
+                });
+                
+                resultsDiv.innerHTML += `<p style="color: blue;">ℹ️ POST request status: ${response.status} (expected to fail, but should not be CORS error)</p>`;
+            } catch (error) {
+                if (error.message.includes('CORS')) {
+                    resultsDiv.innerHTML += `<p style="color: red;">❌ CORS error on POST: ${error.message}</p>`;
+                } else {
+                    resultsDiv.innerHTML += `<p style="color: orange;">⚠️ POST error (not CORS): ${error.message}</p>`;
+                }
+            }
+        }
+    </script>
+</body>
+</html> 
